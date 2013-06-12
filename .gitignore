@@ -1,3 +1,4 @@
+*.ps
 *.fig
 *.fig.*
 *eps-converted-to.pdf

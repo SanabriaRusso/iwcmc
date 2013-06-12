@@ -103,7 +103,7 @@
 	
 	Con's:
 	\begin{itemize}
-		\item Metrics need to traceable to its origin.
+		\item Metrics need to be traceable to their origin.
 		\item Relies on location aware nodes (\emph{Anchors}).
 		\item Localization often decreases network lifetime.
 	\end{itemize}
@@ -113,21 +113,20 @@
 \frame{\frametitle{Node Localization}
 	To make metrics traceable:
 	\begin{enumerate}
-	 \item All nodes are equipped with GPS modules.
-	 \begin{enumerate}
-		\item Decreasing network lifetime due to the modules~$\color{red}\downarrow$.
-		\item Increasing the size and weight of the nodes~$\color{red}\downarrow$.
-		\item Augmenting the required budget~$\color{red}\downarrow$.
-		\item Very low estimation error~$\color{green}\uparrow$.
-	 \end{enumerate}
-	\item Some nodes use GPS modules
-	\begin{enumerate}
-		\item Nodes derive a position estimation from Anchors: increased estimation error~$\color{red}\downarrow$.
-		\item Additional workload is added to the nodes (estimation)~$\color{red}\downarrow$.
-		\item Added traffic (\emph{Beacons}) containing location information~$\color{red}\downarrow$.
-		\item Cheaper and scalable approach~$\color{green}\uparrow$.
-	\end{enumerate}
-
+		\item All nodes are equipped with GPS modules.
+		\begin{enumerate}
+			\item Decreasing network lifetime due to the modules~$\color{red}\downarrow$.
+			\item Increasing the size and weight of the nodes~$\color{red}\downarrow$.
+			\item Augmenting the required budget~$\color{red}\downarrow$.
+			\item Very low estimation error~$\color{green}\uparrow$.
+		\end{enumerate}
+		\item Some nodes use GPS modules
+		\begin{enumerate}
+			\item Nodes derive a position estimation from Anchors: increased estimation error~$\color{red}\downarrow$.
+			\item Additional workload is added to the nodes (estimation)~$\color{red}\downarrow$.
+			\item Added network traffic (\emph{Beacons}) containing location information~$\color{red}\downarrow$.
+			\item Cheaper and scalable approach~$\color{green}\uparrow$.
+		\end{enumerate}
 	\end{enumerate}
 }
 
@@ -180,6 +179,49 @@
 		\end{figure}
 	}
 	
+	\subsection{Localization Protocols}
+	\frame{\frametitle{Localization Protocols}
+		%In \emph{Anchor-based} deployments, position estimation protocols are often divided in:\\
+		\begin{minipage}[l]{0.5\textwidth}
+			{\bfseries ~~~~~~~~~~~~~Range-free}
+			\begin{figure}
+				\centering
+				\includegraphics[width=0.75\linewidth]{figures/bounding_box.eps}
+				\caption{\small Bounding-Box example
+				\label{fig:bounding-box}}
+			\end{figure}%
+
+		\end{minipage}%
+		\hfill
+		\begin{minipage}[r]{0.5\textwidth}
+			{\bfseries ~~~~~~~~~~Range-based}
+			\begin{figure}
+				\centering
+				\includegraphics[width=0.7\linewidth]{figures/lateration.eps}
+				\caption{\small Lateration example
+				\label{fig:lateration}}
+			\end{figure}%
+% 			\begin{itemize}
+% 				\item Also uses ranging techniques to add constraints.
+% 			\end{itemize}
+
+		\end{minipage}%
+	}
 	
+	\frame{\frametitle{Range-free and Range-based}
+		Range-free protocols:
+		\begin{itemize}
+ 			\item Only consider the effective connection with surrounding Anchors.
+ 			\item Usually consume less battery.
+ 			\item Error is subject to the number of connections to different Anchors.
+		\end{itemize}
+		Range-based protocols:
+		\begin{itemize}
+			\item Use ranging techniques to restrict the underlying optimization problem.
+			\item Increased battery consumption, usually subjected to the ranging technique used.
+			\item The error is usually reduced due to the availability of more data.
+		\end{itemize}
+
+	}
 	
 \end{document}
