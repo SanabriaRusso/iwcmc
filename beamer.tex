@@ -26,13 +26,13 @@
 %------------------Title Page---------------------%
 \frame{\titlepage}
 
-%\frame{\frametitle{Table of contents}\tableofcontents}
+\frame{\frametitle{Table of contents}\tableofcontents}
 
 \section{Introduction}\label{intro}
 \frame{\frametitle{What are Randomly Deployed WSNs?}
 	\begin{itemize}
 		\item Nodes are placed randomly over a field.
-		\item It also encompasses deployments made at convenience (like home surveillance).
+		\item It also encompasses deployments made at convenience.
 	\end{itemize}
 	
 	\begin{figure}[htbp]
@@ -58,8 +58,8 @@
 	\frame{\frametitle{Characteristics}
 		\begin{itemize}
 			\item Nodes determine the best route to the sink.
-			\item Collected metrics are back-traceable to its place of origin.
-			\item In case of a battery run-out, nodes can be easily replaced.
+			\item Ofter are easier to deploy.
+			\item In case of a battery run-out, nodes can be replaced.
 		\end{itemize}
 		
 		\begin{figure}
@@ -73,7 +73,7 @@
 	
 	\subsection{Applications}
 	\frame{\frametitle{Applications}
-		Because of their ease of deployment, randomly deployed WSNs are often used for:
+		Because of their ease of deployment, are often used for:
 			\begin{itemize}
 				\item Volcano activity monitoring.
 				\begin{itemize}
@@ -103,8 +103,8 @@
 	
 	Con's:
 	\begin{itemize}
-		\item Metrics need to be traceable to their origin.
-		\item Relies on location aware nodes (\emph{Anchors}).
+		\item It is difficult to trace the metrics.
+		\item Position of the nodes is not know a priori.
 		\item Localization often decreases network lifetime.
 	\end{itemize}
 	}
@@ -130,11 +130,11 @@
 	\end{enumerate}
 }
 
-	\subsection{Measuring Distances}
-	\frame{\frametitle{Measuring Distances}
+	\subsection{Estimating Position by Reference}
+	\frame{\frametitle{Estimating Position by Reference}
 		\begin{itemize}
 			\item Any \emph{Unknown} node (unaware of its position) may derive an estimation from Beacons.
-			\item Beacons are packets containing the position of the sender (usually an Anchor).
+			\item Beacons packets contain the position of the sender.
 		\end{itemize}
 		\begin{figure}[htbp]
 			\centering
@@ -153,13 +153,17 @@
 		%	\caption{}
 		\end{figure}
 		\begin{itemize}
-			\item Applications may tolerate different levels estimation errors.
+			\item Applications may tolerate different levels of estimation errors.
 		\end{itemize}
 	}
 	
 	\frame{\frametitle{Making Range Estimations}
 		\begin{itemize}
-		 \item Make use of the electromagnetic characteristics of the Beacon transmissions to derive a straight line estimation to the transmitter.
+		 \item Use the propagation characteristics of Beacons
+		 \begin{itemize}
+			\item  Derive a straight line estimation to the transmitter.
+		 \end{itemize}
+
 		\end{itemize}
 		\begin{figure}[htbp]
 			\centering
@@ -178,6 +182,7 @@
 		%	\caption{}
 		\end{figure}
 	}
+	
 	
 	\subsection{Localization Protocols}
 	\frame{\frametitle{Localization Protocols}
@@ -211,17 +216,242 @@
 	\frame{\frametitle{Range-free and Range-based}
 		Range-free protocols:
 		\begin{itemize}
- 			\item Only consider the effective connection with surrounding Anchors.
+ 			\item Only consider the effective connection with Anchors.
  			\item Usually consume less battery.
- 			\item Error is subject to the number of connections to different Anchors.
+ 			\item Error is subject to the number of connections to Anchors.
 		\end{itemize}
 		Range-based protocols:
 		\begin{itemize}
-			\item Use ranging techniques to restrict the underlying optimization problem.
-			\item Increased battery consumption, usually subjected to the ranging technique used.
-			\item The error is usually reduced due to the availability of more data.
+			\item Use ranging techniques to constrain the estimation.
+			\item Increased battery consumption related to the ranging technique.
+			\item Error is usually reduced due to the availability of more data.
 		\end{itemize}
 
 	}
 	
+	\frame{\frametitle{Locating Nodes}
+		\begin{itemize}
+			\item Applications dictate the maximum estimation error.
+			%\begin{itemize}
+%				\item Can be coarse (meters) or strict (centimeters).
+%			\end{itemize}
+			\item Protocol performance is limited by the network-{\bfseries environmanetal conditions} surrounding each node:
+			\begin{itemize}
+				\item $\#$ of surrounding Anchors.
+				\item Network delay.
+				\item Available throughput.
+				\item Processing capabilities.
+			\end{itemize}
+			\item {\bfseries Deployments} may have different {\bfseries considerations} regarding:
+			\begin{itemize}
+				\item Network lifetime.
+				\item Location accuracy.
+				\item Traffic overhead.
+				\item Convergence time.
+			\end{itemize}
+		\end{itemize}
+
+	One protocol cannot perform well in all possible scenarios	
+	}
+	
+	\subsection{Composability of Localization Protocols}
+	\frame{\frametitle{Composability}
+		\begin{itemize}
+			\item Combines different protocols to achieve better results.
+			\begin{figure}
+				\centering
+				\includegraphics[width=0.7\linewidth]{figures/composability.eps}
+				\caption{\small Composability\tiny{\footnote{\tiny{Redrawn from Stoleru, R., Stankovic, J., Son, S.H., “On Composability of Localization Protocols for Wireless Sensor Networks,” Network, IEEE, vol. 22, no. 4, pp. 21–25, 2008.}}}
+				\label{fig:composability}}
+			\end{figure}
+		\end{itemize}
+	}
+	
+	\frame{\frametitle{Composability}
+		\begin{itemize}
+			\item Leverages weaknesses of some protocols with strengths of others.
+			\item Protocols are executed sequentially according to accuracy thresholds.
+			\item Brings some questions:
+			\begin{itemize}
+				\item How are protocols selected?
+				\item How are thresholds set?
+				\item Is it static-sequential execution the way to go?
+			\end{itemize}
+		\end{itemize}
+	}
+	
+\section{Localization Procedure}
+\subsection{Definitions}
+\frame{\frametitle{Localization Procedure}
+Is based on:
+	\begin{itemize}
+		\item Protocol's performance is dependent on the environmental conditions.
+		\item Selected protocols must comply with the deployment considerations.
+	\end{itemize}
+The Localization Procedure:
+	\begin{itemize}
+		\item Analyzes the node's environmental conditions.
+		\item Identifies a suitable set of protocols.
+	\end{itemize}
+}
+
+\frame{\frametitle{Localization Procedure}
+\begin{figure}
+		\centering
+		\includegraphics[width=0.9\linewidth]{figures/LocProc.eps}
+		\caption{\small Localization Procedure
+		\label{fig:LocProc}}
+\end{figure}
+}
+
+\subsection{Pattern Matching Engine}
+\frame{\frametitle{Localizatitheon Procedure}
+	The Pattern Matching Engine (PME):
+	\begin{itemize}
+		\item Manages the execution of \emph{characterized}{\tiny{\footnote{\tiny{Their best-working conditions are known.}}}} localization protocols.
+		\item Selects a set of protocols based on the environmental conditions.
+		\item Reorders the execution based on the deployment considerations.
+	\end{itemize}
+}
+
+\subsection{Evaluation}
+\frame{\frametitle{Evaluation tools}
+
+\begin{itemize}
+	\item Bounding-Box and Lateration are tested.
+	\begin{itemize}
+		\item Popular.
+		\item Some of their best-working conditions are known.
+		\item Range-free and range-based example.
+		\item $100$~m~x~$100$~m flat surface.
+	\end{itemize}
+\end{itemize}
+
+\begin{table}[htbp]
+  \centering
+  \begin{threeparttable}[htbp]
+    \begin{tabular}{c||c||c}
+    \hline
+    \bfseries Characteristic & \bfseries Lateration & \bfseries Bounding-Box\\
+    \hline\hline 
+    Env. Conditions & At least 4 \emph{Anchors} & At least 1 \emph{Anchor}\\
+    Accuracy & 2-10 meters & Coarse{\tiny \footnote{Location area upper-bounded by \emph{Anchor}'s radio range (R).}}\\
+    Energy Consumption & Low & Very low{\tiny\footnote{Can be treated as a discrete problem.}}\\
+    \hline
+    \end{tabular}
+  \end{threeparttable}
+\end{table}
+}
+
+
+\frame{\frametitle{Evaluation tools}
+
+\begin{itemize}
+	\item Modified version of the SENSE simulator{\tiny{\footnote{\tiny{Chen, G., Branch, J., Pflug, M., Zhu, L., Szymanski, B., “SENSE: a wireless sensor network simulator,” Advances in Pervasive Computing and Networking, pp. 249–267, 2005.}}}}
+	\item Deployment considerations: high accuracy and long network lifetime.
+	\item Two channel models: free space and shadowing.
+\end{itemize}
+\begin{figure}
+		\centering
+		\includegraphics[width=0.35\linewidth,angle=-90]{figures/avgBeaconPerNode.eps}
+\end{figure}
+
+}
+
+\frame{\frametitle{Battery Consumption}
+\begin{itemize}
+	\item Similar battery consumption.
+\end{itemize}
+\begin{figure}[htbp]
+		\centering
+		\begin{subfigure}{.5\textwidth}
+			\centering
+			\includegraphics[width=0.7\linewidth, angle=-90]{figures/battery.eps}
+			\caption{\tiny Individual execution
+			\label{fig:individual}}
+			\end{subfigure}%
+		\begin{subfigure}{.5\textwidth}
+			\centering
+			\includegraphics[width=0.7\linewidth,angle=-90]{figures/pmeBat.eps}
+			\caption{\tiny Localization Procedure
+			\label{fig:LocProc-Bat}}
+			\end{subfigure}
+%	\caption{}
+\end{figure}
+}
+
+
+\frame{\frametitle{Located Nodes}
+\begin{itemize}
+	\item Increased number of located nodes.
+\end{itemize}
+\begin{figure}[htbp]
+		\centering
+		\begin{subfigure}{.5\textwidth}
+			\centering
+			\includegraphics[width=0.7\linewidth, angle=-90]{figures/locatedNodes.eps}
+			\caption{\tiny Individual execution}
+			\end{subfigure}%
+		\begin{subfigure}{.5\textwidth}
+			\centering
+			\includegraphics[width=0.7\linewidth,angle=-90]{figures/pmeLocNodes.eps}
+			\caption{\tiny Localization Procedure}
+			\end{subfigure}
+%	\caption{}
+\end{figure}
+}
+
+
+\frame{\frametitle{Straigh-line Error}
+\begin{itemize}
+	\item Greater \emph{average} error than in Lateration-only scenarios.
+\end{itemize}
+\begin{figure}[htbp]
+		\centering
+		\begin{subfigure}{.5\textwidth}
+			\centering
+			\includegraphics[width=0.7\linewidth, angle=-90]{figures/error.eps}
+			\caption{\tiny Individual execution}
+			\end{subfigure}%
+		\begin{subfigure}{.5\textwidth}
+			\centering
+			\includegraphics[width=0.7\linewidth,angle=-90]{figures/pmeError.eps}
+			\caption{\tiny Localization Procedure}
+			\end{subfigure}
+%	\caption{}
+\end{figure}
+}
+
+\section{Remarks}
+\frame{\frametitle{Remarks}
+\begin{itemize}
+	\item Despite of greater error than Lateration:
+	\begin{itemize}
+		\item Number of located nodes is increased.
+		\item In the individual execution, these nodes have infinite error.
+		\item Similar battery consumption.
+	\end{itemize}
+	\item A carefully selected set of protocols can work on more scenarios.
+	\item Allowing node-\emph{Beacoming} and location information exchange:
+	\begin{itemize}
+		\item Cetralized protocols.
+		\item More scenarios: NLoS, anisotropic topologies.
+	\end{itemize}
+\end{itemize}
+}
+	
 \end{document}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
